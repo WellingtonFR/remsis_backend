@@ -3,8 +3,8 @@ exports.up = function (knex) {
     table.increments();
     table.string("idConferente").notNullable();
     table.string("nomeConferente").notNullable();
-    table.timestamp("created_at");
-    table.timestamp("updated_at");
+    table.string("created_at");
+    table.string("updated_at");
   });
 };
 exports.down = function (knex) {

@@ -8,8 +8,8 @@ exports.up = function (knex) {
     table.string("cidade").notNullable();
     table.string("estado").notNullable();
     table.string("nomeFantasia").notNullable();
-    table.timestamp("created_at");
-    table.timestamp("updated_at");
+    table.string("created_at");
+    table.string("updated_at");
   });
 };
 

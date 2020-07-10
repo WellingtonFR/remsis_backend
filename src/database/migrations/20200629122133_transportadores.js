@@ -1,10 +1,10 @@
 exports.up = function (knex) {
   return knex.schema.createTable("transportadores", function (table) {
     table.increments();
-    table.integer("nomeTransportador").notNullable();
+    table.string("nomeTransportador").notNullable();
     table.string("placaVeiculo").notNullable();
-    table.timestamp("created_at");
-    table.timestamp("updated_at");
+    table.string("created_at");
+    table.string("updated_at");
   });
 };
 

@@ -4,8 +4,8 @@ exports.up = function (knex) {
     table.string("nomeUsuario").notNullable();
     table.string("idUsuario").notNullable();
     table.string("hashedPassword").notNullable();
-    table.timestamp("created_at");
-    table.timestamp("updated_at");
+    table.string("created_at");
+    table.string("updated_at");
   });
 };
 exports.down = function (knex) {

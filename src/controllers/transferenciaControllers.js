@@ -724,7 +724,7 @@ module.exports = {
   async delete(req, res) {
     const { id } = req.params;
     await connection("transferencias")
-      .where("id", id)
+      .where({ id: id })
       .first()
       .delete()
       .then(() => {

@@ -1,8 +1,12 @@
 module.exports = {
   development: {
-    client: "sqlite3",
+    client: "mysql",
     connection: {
-      filename: "./src/database/database/basePrincipal.db",
+      host: "127.0.0.1",
+      port: 3306,
+      user: "root",
+      password: "l9hDZrtFEVBqJKvDmv1f",
+      database: "remsis",
     },
     migrations: {
       directory: "./src/database/migrations",

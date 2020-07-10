@@ -24,12 +24,12 @@ module.exports = {
       });
       return res.status(200).send({ message: "Inserido com sucesso" });
     } catch (err) {
-      return res.status(400).send("Contate o administrador");
+      return res.status(400).send({ message: "Contate o administrador" });
     }
   },
   async update(req, res) {
     //#region  req.body
-    const { nomeTransportador, placaVeiculo } = req.body;
+    const { nomeTransportador, placaVeiculo, updated_at } = req.body;
     //#endregion
 
     try {
@@ -37,6 +37,7 @@ module.exports = {
       await connection("transportadores").where({ id: id }).update({
         nomeTransportador,
         placaVeiculo,
+        updated_at,
       });
       return res.status(200).send({ message: "Alterado com sucesso" });
     } catch (err) {
