@@ -6,6 +6,7 @@ module.exports = {
       const data = await connection("filiais")
         .select("*")
         .orderBy("numeroFilial");
+      console.log(data);
       return res.json(data);
     } catch (err) {
       return res.status(400).send("Não foi encontrada nenhuma filial");
