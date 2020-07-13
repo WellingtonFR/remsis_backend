@@ -29,13 +29,12 @@ module.exports = {
       tableName: "knex_migrations",
     },
   },
-
   production: {
     client: "mysql",
     connection: {
       host: "us-cdbr-east-02.cleardb.com",
       port: 3306,
-      user: "root",
+      user: "b8d927625dc0bb",
       password: "209aa6ddca542da",
       database: "heroku_f2f70dcfa81c15f",
     },

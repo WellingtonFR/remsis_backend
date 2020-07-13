@@ -13,4 +13,4 @@ app.get("/", (req, res) => {
   res.send("Página inicial");
 });
 
-app.listen(3001);
+app.listen(process.env.PORT || 3001);
