@@ -21,7 +21,7 @@ module.exports = {
         .select()
         .where({ idUsuario: idUsuario });
 
-      if (verificaUsuario) {
+      if (verificaUsuario.length !== 0) {
         return res.status(400).send({ message: "Usuário já está cadastrado" });
       }
 
