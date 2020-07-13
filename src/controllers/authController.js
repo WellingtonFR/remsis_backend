@@ -44,14 +44,19 @@ module.exports = {
   },
   async authenticate(req, res) {
     const { nomeUsuario, senha } = req.body;
+
     const verificaUsuario = await connection("usuarios")
-      .select()
+      .select("hashedPassword")
       .where({ nomeUsuario: nomeUsuario });
+
     if (verificaUsuario.length === 0) {
       return res.status(400).send({ message: "Usuário não encontrado" });
     }
 
-    if (!(await bcrypt.compare(senha, verificaUsuario.hashedPassword))) {
+    console.log(senha);
+    console.log(verificaUsuario);
+
+    if (!(await bcrypt.compare(senha, verificaUsuario[0].hashedPassword))) {
       return res.status(400).send({ message: "Usuário ou senha não confere" });
     }
 
