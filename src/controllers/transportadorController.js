@@ -12,9 +12,14 @@ module.exports = {
     }
   },
   async create(req, res) {
-    //#region req.body
     const { nomeTransportador, placaVeiculo, created_at } = req.body;
-    //#endregion
+
+    const verificaPlaca = await connection("transportadores")
+      .select("placaVeiculo")
+      .where({ placaVeiculo: placaVeiculo });
+    if (verificaPlaca.length !== 0) {
+      return res.status(400).send({ message: "Conferente já está cadastrado" });
+    }
 
     try {
       const transferenciaId = await connection("transportadores").insert({
@@ -65,7 +70,6 @@ module.exports = {
         return res.json(data);
       })
       .catch((err) => {
-        console.log(err);
         return res
           .status(400)
           .send({ message: "Erro ao localizar transportador" });

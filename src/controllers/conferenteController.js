@@ -8,7 +8,6 @@ module.exports = {
         .orderBy("nomeConferente");
       return res.json(data);
     } catch (err) {
-      console.log(err);
       return res.status(400).send({ message: "Contate o administrador" });
     }
   },
@@ -17,9 +16,9 @@ module.exports = {
 
     try {
       const verificarConferente = await connection("conferentes")
-        .select()
-        .where("idConferente", idConferente);
-      if (verificarConferente) {
+        .select("nomeConferente")
+        .where({ idConferente: idConferente });
+      if (verificarConferente.length !== 0) {
         return res
           .status(400)
           .send({ message: "Conferente já está cadastrado" });
@@ -32,7 +31,6 @@ module.exports = {
       });
       return res.status(200).send({ message: "Criado com sucesso" });
     } catch (err) {
-      console.log(err);
       return res.status(400).send({ message: "Contate o administrador" });
     }
   },
@@ -45,7 +43,6 @@ module.exports = {
         return res.status(204).send({ message: "Excluído com sucesso" });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).send({ message: "Erro ao excluir conferente" });
       });
   },
@@ -58,7 +55,6 @@ module.exports = {
         return res.json(data);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).send("Conferente não encontrado");
       });
   },

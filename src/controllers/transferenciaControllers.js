@@ -9,7 +9,6 @@ module.exports = {
       return res.json(data);
     } catch (err) {
       res.status(400).send("Erro ao localizar as transferências");
-      console.log(err);
     }
   },
   async create(req, res) {
@@ -363,7 +362,6 @@ module.exports = {
         .status(200)
         .send({ message: "Inserido com sucesso", id: transferenciaId });
     } catch (err) {
-      console.log(err);
       return res.status(400).send("Contate o administrador");
     }
   },
@@ -717,7 +715,6 @@ module.exports = {
       });
       return res.status(200).send({ message: "Alterado com sucesso" });
     } catch (err) {
-      console.log(err);
       return res.status(400).send({ message: "Contate o administrador" });
     }
   },
@@ -730,7 +727,6 @@ module.exports = {
         return res.status(204).send("Excluído com sucesso");
       })
       .catch((err) => {
-        console.log(err);
         return res
           .status(400)
           .send({ message: "Erro ao excluir transferência" });
@@ -745,7 +741,6 @@ module.exports = {
         return res.json(data);
       })
       .catch((err) => {
-        console.log(err);
         return res
           .status(400)
           .send({ message: "Erro ao localizar transferência" });
@@ -795,7 +790,6 @@ module.exports = {
             return res.json(data);
           })
           .catch((err) => {
-            console.log(err);
             return res
               .status(400)
               .send({ message: "Erro ao localizar pelo número de controle" });
@@ -808,7 +802,6 @@ module.exports = {
             return res.json(data);
           })
           .catch((err) => {
-            console.log(err);
             return res
               .status(400)
               .send({ message: "Erro ao localizar pelo número de filial" });
@@ -824,7 +817,6 @@ module.exports = {
             return res.json(data);
           })
           .catch((err) => {
-            console.log(err);
             return res
               .status(400)
               .send({ message: "Erro ao localizar pelo número de filial" });
@@ -837,7 +829,6 @@ module.exports = {
           return res.json(data);
         })
         .catch((err) => {
-          console.log(err);
           return res
             .status(400)
             .send({ message: "Erro ao localizar pelo número de filial" });

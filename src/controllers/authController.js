@@ -38,7 +38,6 @@ module.exports = {
         });
       });
     } catch (err) {
-      console.log(err);
       return res.status(400).send({ message: "Contate o administrador" });
     }
   },
@@ -52,9 +51,6 @@ module.exports = {
     if (verificaUsuario.length === 0) {
       return res.status(400).send({ message: "Usuário não encontrado" });
     }
-
-    console.log(senha);
-    console.log(verificaUsuario);
 
     if (!(await bcrypt.compare(senha, verificaUsuario[0].hashedPassword))) {
       return res.status(400).send({ message: "Usuário ou senha não confere" });
@@ -72,7 +68,6 @@ module.exports = {
       const filePath = "../backend/src/database/database/basePrincipal.db";
       res.download(filePath);
     } catch (err) {
-      console.log(err);
       return res.status(400).send({ message: "Arquivo não encontrado" });
     }
   },

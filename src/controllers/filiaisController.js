@@ -8,7 +8,6 @@ module.exports = {
         .orderBy("numeroFilial");
       return res.json(data);
     } catch (err) {
-      console.log(err);
       return res.status(400).send("Não foi encontrada nenhuma filial");
     }
   },
@@ -26,10 +25,10 @@ module.exports = {
 
     try {
       const verificarFilial = await connection("filiais")
-        .select()
+        .select("numeroFilial")
         .where({ numeroFilial: numeroFilial });
 
-      if (verificarFilial) {
+      if (verificarFilial.length !== 0) {
         return res.status(400).send({ message: "Filial já está cadastrada" });
       }
 
@@ -45,7 +44,6 @@ module.exports = {
       });
       return res.status(200).send("Criado com sucesso");
     } catch (err) {
-      console.log(err);
       return res.status(400).send("Contate o administrador");
     }
   },
@@ -62,10 +60,6 @@ module.exports = {
     } = req.body;
 
     try {
-      const verificarFilial = await connection("filiais")
-        .select()
-        .where({ numeroFilial: numeroFilial });
-
       const { id } = req.params;
       await connection("filiais").where({ id: id }).update({
         numeroFilial,
@@ -79,20 +73,18 @@ module.exports = {
       });
       return res.status(200).send("Atualizado com sucesso");
     } catch (err) {
-      console.log(err);
       return res.status(400).send("Erro ao atualizar os dados");
     }
   },
   async delete(req, res) {
     const { id } = req.params;
     await connection("filiais")
-      .where("id", id)
+      .where({ id: id })
       .delete()
       .then(() => {
         return res.status(204).send("Excluído com sucesso");
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).send({ message: "Erro ao excluir filial" });
       });
   },
@@ -105,7 +97,6 @@ module.exports = {
         return res.json(data);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).send("Filial não encontrada");
       });
   },
@@ -124,7 +115,6 @@ module.exports = {
         return res.json(data);
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).send("Filial não encontrada");
       });
   },
