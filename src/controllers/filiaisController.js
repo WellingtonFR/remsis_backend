@@ -112,6 +112,7 @@ module.exports = {
       )
       .where({ numeroFilial: numeroFilial })
       .then((data) => {
+        console.log(data);
         return res.json(data);
       })
       .catch((err) => {
