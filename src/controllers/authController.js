@@ -45,9 +45,9 @@ module.exports = {
   async authenticate(req, res) {
     const { nomeUsuario, senha } = req.body;
     const verificaUsuario = await connection("usuarios")
-      .select("*")
+      .select()
       .where({ nomeUsuario: nomeUsuario });
-    if (!verificaUsuario) {
+    if (verificaUsuario.length === 0) {
       return res.status(400).send({ message: "Usuário não encontrado" });
     }
 
