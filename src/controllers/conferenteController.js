@@ -18,9 +18,7 @@ module.exports = {
     try {
       const verificarConferente = await connection("conferentes")
         .select()
-        .where("idConferente", idConferente)
-        .first();
-
+        .where("idConferente", idConferente);
       if (verificarConferente) {
         return res
           .status(400)
@@ -56,7 +54,6 @@ module.exports = {
     await connection("conferentes")
       .select("*")
       .where("idConferente", idConferente)
-      .first()
       .then((data) => {
         return res.json(data);
       })

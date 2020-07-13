@@ -48,7 +48,6 @@ module.exports = {
     const { id } = req.params;
     await connection("transportadores")
       .where("id", id)
-      .first()
       .delete()
       .then(() => {
         return res.status(204).send("Excluído com sucesso");
@@ -62,7 +61,6 @@ module.exports = {
     await connection("transportadores")
       .select("*")
       .where("id", id)
-      .first()
       .then((data) => {
         return res.json(data);
       })
@@ -78,7 +76,6 @@ module.exports = {
     await connection("transportadores")
       .select("*")
       .where("nomeTransportador", nomeTransportador)
-      .first()
       .then((data) => {
         return res.json(data);
       })

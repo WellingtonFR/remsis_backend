@@ -27,8 +27,7 @@ module.exports = {
     try {
       const verificarFilial = await connection("filiais")
         .select()
-        .where({ numeroFilial: numeroFilial })
-        .first();
+        .where({ numeroFilial: numeroFilial });
 
       if (verificarFilial) {
         return res.status(400).send({ message: "Filial já está cadastrada" });
@@ -65,8 +64,7 @@ module.exports = {
     try {
       const verificarFilial = await connection("filiais")
         .select()
-        .where({ numeroFilial: numeroFilial })
-        .first();
+        .where({ numeroFilial: numeroFilial });
 
       const { id } = req.params;
       await connection("filiais").where({ id: id }).update({
@@ -103,7 +101,6 @@ module.exports = {
     await connection("filiais")
       .select("*")
       .where({ id: id })
-      .first()
       .then((data) => {
         return res.json(data);
       })
@@ -123,7 +120,6 @@ module.exports = {
         "nomeFantasia"
       )
       .where({ numeroFilial: numeroFilial })
-      .first()
       .then((data) => {
         return res.json(data);
       })

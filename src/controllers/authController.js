@@ -19,8 +19,7 @@ module.exports = {
     try {
       const verificaUsuario = await connection("usuarios")
         .select()
-        .where({ idUsuario: idUsuario })
-        .first();
+        .where({ idUsuario: idUsuario });
 
       if (verificaUsuario) {
         return res.status(400).send({ message: "Usuário já está cadastrado" });
@@ -47,9 +46,7 @@ module.exports = {
     const { nomeUsuario, senha } = req.body;
     const verificaUsuario = await connection("usuarios")
       .select("*")
-      .where({ nomeUsuario: nomeUsuario })
-      .first();
-
+      .where({ nomeUsuario: nomeUsuario });
     if (!verificaUsuario) {
       return res.status(400).send({ message: "Usuário não encontrado" });
     }
