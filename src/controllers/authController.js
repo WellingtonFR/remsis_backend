@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const hapi = require("@hapi/joi");
+const moment = require("moment");
 const connection = require("../database/connection");
+const validation = require("../validations/userValidation");
 
 function generateToken(params = []) {
   return jwt.sign(
@@ -14,7 +17,19 @@ function generateToken(params = []) {
 
 module.exports = {
   async register(req, res) {
-    const { nomeUsuario, idUsuario, senha, created_at } = req.body;
+    const { nomeUsuario, idUsuario, senha } = req.body;
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.userSchema
+      .validateAsync({
+        nomeUsuario: nomeUsuario,
+        idUsuario: idUsuario,
+        senha: senha,
+        created_at: created_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     try {
       const verificaUsuario = await connection("usuarios")

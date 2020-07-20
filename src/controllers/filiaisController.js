@@ -1,4 +1,6 @@
+const moment = require("moment");
 const connection = require("../database/connection");
+const validation = require("../validations/filiaisValidation");
 
 module.exports = {
   async index(req, res) {
@@ -6,7 +8,6 @@ module.exports = {
       const data = await connection("filiais")
         .select("*")
         .orderBy("numeroFilial");
-      console.log(data);
       return res.json(data);
     } catch (err) {
       return res.status(400).send("Não foi encontrada nenhuma filial");
@@ -21,8 +22,23 @@ module.exports = {
       numeroEndereco,
       complemento,
       nomeFantasia,
-      created_at,
     } = req.body;
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.filiaisSchema
+      .validateAsync({
+        numeroFilial: numeroFilial,
+        cidade: cidade,
+        estado: estado,
+        endereco: endereco,
+        numeroEndereco: numeroEndereco,
+        complemento: complemento,
+        nomeFantasia: nomeFantasia,
+        created_at: created_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     try {
       const verificarFilial = await connection("filiais")
@@ -57,8 +73,23 @@ module.exports = {
       numeroEndereco,
       complemento,
       nomeFantasia,
-      updated_at,
     } = req.body;
+    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.filiaisSchema
+      .validateAsync({
+        numeroFilial: numeroFilial,
+        cidade: cidade,
+        estado: estado,
+        endereco: endereco,
+        numeroEndereco: numeroEndereco,
+        complemento: complemento,
+        nomeFantasia: nomeFantasia,
+        updated_at: updated_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     try {
       const { id } = req.params;
@@ -79,6 +110,23 @@ module.exports = {
   },
   async delete(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
+    const verificarFilial = await connection("filiais")
+      .select("numeroFilial")
+      .where({ id: id });
+
+    if (verificarFilial.length === 0) {
+      return res.status(400).send({ message: "Filial não encontrada" });
+    }
+
     await connection("filiais")
       .where({ id: id })
       .delete()
@@ -91,6 +139,15 @@ module.exports = {
   },
   async findById(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
     await connection("filiais")
       .select("*")
       .where({ id: id })
@@ -103,6 +160,15 @@ module.exports = {
   },
   async findByNumeroFilial(req, res) {
     const { numeroFilial } = req.params;
+
+    await validation.numeroFilialSchema
+      .validateAsync({
+        numeroFilial: numeroFilial,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
     await connection("filiais")
       .select(
         "numeroFilial",
@@ -113,7 +179,6 @@ module.exports = {
       )
       .where({ numeroFilial: numeroFilial })
       .then((data) => {
-        console.log(data);
         return res.json(data);
       })
       .catch((err) => {

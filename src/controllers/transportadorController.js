@@ -1,4 +1,6 @@
+const moment = require("moment");
 const connection = require("../database/connection");
+const validation = require("../validations/transportadorValidation");
 
 module.exports = {
   async index(req, res) {
@@ -12,7 +14,18 @@ module.exports = {
     }
   },
   async create(req, res) {
-    const { nomeTransportador, placaVeiculo, created_at } = req.body;
+    const { nomeTransportador, placaVeiculo } = req.body;
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.transportadorSchema
+      .validateAsync({
+        nomeTransportador: nomeTransportador,
+        placaVeiculo: placaVeiculo,
+        created_at: created_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     const verificaPlaca = await connection("transportadores")
       .select("placaVeiculo")
@@ -33,9 +46,18 @@ module.exports = {
     }
   },
   async update(req, res) {
-    //#region  req.body
-    const { nomeTransportador, placaVeiculo, updated_at } = req.body;
-    //#endregion
+    const { nomeTransportador, placaVeiculo } = req.body;
+    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.transportadorSchema
+      .validateAsync({
+        nomeTransportador: nomeTransportador,
+        placaVeiculo: placaVeiculo,
+        updated_at: updated_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     try {
       const { id } = req.params;
@@ -51,6 +73,22 @@ module.exports = {
   },
   async delete(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
+    const verificarTransportador = await connection("transportadores")
+      .select("nomeTransportador")
+      .where({ id: id });
+    if (verificarConferente.length === 0) {
+      return res.status(400).send({ message: "Tranportador não encontrado" });
+    }
+
     await connection("transportadores")
       .where("id", id)
       .delete()
@@ -90,7 +128,7 @@ module.exports = {
       });
   },
   async find(req, res) {
-    const { nomeTransportador, placaVeiculo } = req.body;
+    const { nomeTransportador } = req.body;
 
     await connection("transportadores")
       .select("*")

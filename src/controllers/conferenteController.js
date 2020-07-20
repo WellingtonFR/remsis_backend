@@ -1,4 +1,6 @@
+const moment = require("moment");
 const connection = require("../database/connection");
+const validation = require("../validations/conferenteValidation");
 
 module.exports = {
   async index(req, res) {
@@ -12,7 +14,18 @@ module.exports = {
     }
   },
   async create(req, res) {
-    const { nomeConferente, idConferente, created_at } = req.body;
+    const { nomeConferente, idConferente } = req.body;
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.conferenteSchema
+      .validateAsync({
+        idConferente: idConferente,
+        nomeConferente: nomeConferente,
+        created_at: created_at,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     try {
       const verificarConferente = await connection("conferentes")
@@ -36,6 +49,22 @@ module.exports = {
   },
   async delete(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
+    const verificarConferente = await connection("conferentes")
+      .select("nomeConferente")
+      .where({ id: id });
+    if (verificarConferente.length === 0) {
+      return res.status(400).send({ message: "Conferente não encontrado" });
+    }
+
     await connection("conferentes")
       .where("id", id)
       .delete()
@@ -48,8 +77,17 @@ module.exports = {
   },
   async findByIdConferente(req, res) {
     const { idConferente } = req.params;
+
+    const validate = await validation.id
+      .validateAsync({
+        id: idConferente,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
     await connection("conferentes")
-      .select("*")
+      .select()
       .where("idConferente", idConferente)
       .then((data) => {
         return res.json(data);
