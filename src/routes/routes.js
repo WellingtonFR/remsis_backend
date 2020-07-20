@@ -34,9 +34,9 @@ route.post(
   transferenciaController.create
 );
 route.post(
-  "/transferencia/find",
+  "/transferencia/search",
   autenticarToken,
-  transferenciaController.find
+  transferenciaController.search
 );
 route.put(
   "/transferencia/update/:id",
@@ -100,6 +100,5 @@ route.post("/register", authController.register);
 //Autenticação
 route.post("/authenticate", authController.authenticate);
 route.post("/logout", authController.logout);
-route.get("/backupDB", autenticarToken, authController.backupDB);
 
 module.exports = route;

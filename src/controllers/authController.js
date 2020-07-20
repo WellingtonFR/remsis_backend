@@ -78,12 +78,4 @@ module.exports = {
   async logout(req, res) {
     res.send({ token: null });
   },
-  async backupDB(req, res) {
-    try {
-      const filePath = "../backend/src/database/database/basePrincipal.db";
-      res.download(filePath);
-    } catch (err) {
-      return res.status(400).send({ message: "Arquivo não encontrado" });
-    }
-  },
 };

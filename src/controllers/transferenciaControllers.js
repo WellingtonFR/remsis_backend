@@ -1,4 +1,6 @@
+const moment = require("moment");
 const connection = require("../database/connection");
+const validation = require("../validations/transferenciaValidation");
 
 module.exports = {
   async index(req, res) {
@@ -22,7 +24,6 @@ module.exports = {
       transportador,
       placaVeiculo,
       conferente,
-      created_at,
       //
       filialOrigem_1,
       notaFiscal_1,
@@ -185,6 +186,7 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
 
     try {
       const transferenciaId = await connection("transferencias").insert({
@@ -376,7 +378,6 @@ module.exports = {
       transportador,
       placaVeiculo,
       conferente,
-      updated_at,
       //
       filialOrigem_1,
       notaFiscal_1,
@@ -539,9 +540,18 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
-
+    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     try {
       const { id } = req.params;
+
+      await validation.id
+        .validateAsync({
+          id: id,
+        })
+        .catch((err) => {
+          return res.status(400).send({ message: err.details[0].message });
+        });
+
       await connection("transferencias").where({ id: id }).update({
         dataAtual,
         numeroControle,
@@ -720,6 +730,15 @@ module.exports = {
   },
   async delete(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
     await connection("transferencias")
       .where({ id: id })
       .delete()
@@ -734,6 +753,15 @@ module.exports = {
   },
   async findById(req, res) {
     const { id } = req.params;
+
+    await validation.id
+      .validateAsync({
+        id: id,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
+
     await connection("transferencias")
       .select("*")
       .where("id", id)
@@ -746,8 +774,22 @@ module.exports = {
           .send({ message: "Erro ao localizar transferência" });
       });
   },
-  async find(req, res) {
+  async search(req, res) {
     const { initialDate, finalDate, numeroControle, numeroFilial } = req.body;
+
+    const validationInitialDate = moment().format("MM DD YYYY, h:mm:ss a");
+    const validationFinalDate = moment().format("MM DD YYYY, h:mm:ss a");
+
+    await validation.searchSchema
+      .validateAsync({
+        initialDate: validationInitialDate,
+        finalDate: validationFinalDate,
+        numeroControle: numeroControle,
+        numeroFilial: numeroFilial,
+      })
+      .catch((err) => {
+        return res.status(400).send({ message: err.details[0].message });
+      });
 
     if (
       initialDate === "" &&

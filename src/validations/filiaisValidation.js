@@ -14,7 +14,7 @@ const filiaisSchema = hapi.object({
     "any.required": "O endereço deve ser preenchido",
   }),
   numeroEndereco: hapi.number().integer().max(1000000000).required().messages({
-    "number.base": "O número do endereço deve conter somente números",
+    "number.base": "O número do endereço está em formato inválido",
     "number.max": "Número de caracteres excedido",
     "number.empty": "O número do endereço não pode estar vazio",
     "any.required": "O número do endereço deve ser preenchido",
