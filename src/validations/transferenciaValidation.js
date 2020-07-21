@@ -1,11 +1,10 @@
 const hapi = require("@hapi/joi");
 
 const id = hapi.object({
-  id: hapi
-    .number()
-    .integer()
-    .max(1000000000)
-    .messages({ "number.base": "O id precisa ser um número" }),
+  id: hapi.number().integer().max(1000000000).messages({
+    "number.base": "O id precisa ser um número",
+    "number.max": "Número de caracteres excedido",
+  }),
 });
 
 const searchSchema = hapi.object({

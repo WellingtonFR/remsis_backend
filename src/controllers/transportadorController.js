@@ -85,7 +85,8 @@ module.exports = {
     const verificarTransportador = await connection("transportadores")
       .select("nomeTransportador")
       .where({ id: id });
-    if (verificarConferente.length === 0) {
+
+    if (verificarTransportador.length === 0) {
       return res.status(400).send({ message: "Tranportador não encontrado" });
     }
 
