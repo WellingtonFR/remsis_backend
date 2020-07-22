@@ -16,7 +16,7 @@ module.exports = {
   async create(req, res) {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
-    const _placaVeiculo = placaVeiculo.toUpperCase();
+    const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
     await validation.transportadorSchema
       .validateAsync({
@@ -51,18 +51,12 @@ module.exports = {
   async update(req, res) {
     const { nomeTransportador, placaVeiculo } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
-
-    const verificaPlaca = await connection("transportadores")
-      .select("placaVeiculo")
-      .where({ placaVeiculo: placaVeiculo });
-    if (verificaPlaca.length !== 0) {
-      return res.status(400).send({ message: "Veículo já está cadastrado" });
-    }
+    const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
     await validation.transportadorSchema
       .validateAsync({
         nomeTransportador: nomeTransportador,
-        placaVeiculo: placaVeiculo,
+        placaVeiculo: _placaVeiculo,
         updated_at: updated_at,
       })
       .catch((err) => {
@@ -73,7 +67,7 @@ module.exports = {
       const { id } = req.params;
       await connection("transportadores").where({ id: id }).update({
         nomeTransportador,
-        placaVeiculo,
+        placaVeiculo: _placaVeiculo,
         updated_at,
       });
       return res.status(200).send({ message: "Alterado com sucesso" });
