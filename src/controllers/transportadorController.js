@@ -30,7 +30,7 @@ module.exports = {
 
     const verificaTransportador = await connection("transportadores")
       .select("nomeTransportador")
-      .where({ nomeTransportador: _nomeTransportador });
+      .where({ nomeTransportador: nomeTransportador });
     if (verificaTransportador.length !== 0) {
       return res
         .status(400)
