@@ -7,7 +7,7 @@ module.exports = {
     try {
       const data = await connection("transferencias")
         .select("*")
-        .orderBy("created_at", "asc");
+        .orderBy("created_at", "desc");
       return res.json(data);
     } catch (err) {
       res.status(400).send("Erro ao localizar as transferências");
@@ -828,6 +828,7 @@ module.exports = {
         await connection("transferencias")
           .select("*")
           .where("numeroControle", numeroControle)
+          .orderBy("created_at", "desc")
           .then((data) => {
             return res.json(data);
           })
@@ -840,6 +841,7 @@ module.exports = {
         await connection("transferencias")
           .select("*")
           .where("unidadeDestino", numeroFilial)
+          .orderBy("created_at", "desc")
           .then((data) => {
             return res.json(data);
           })
@@ -855,6 +857,7 @@ module.exports = {
           .select("*")
           .whereBetween("dataAtual", [initialDate, finalDate])
           .where("unidadeDestino", numeroFilial)
+          .orderBy("created_at", "desc")
           .then((data) => {
             return res.json(data);
           })
@@ -867,6 +870,7 @@ module.exports = {
       await connection("transferencias")
         .select("*")
         .whereBetween("dataAtual", [initialDate, finalDate])
+        .orderBy("created_at", "desc")
         .then((data) => {
           return res.json(data);
         })
