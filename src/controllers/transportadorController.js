@@ -16,29 +16,31 @@ module.exports = {
   async create(req, res) {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
-    placaVeiculo = placaVeiculo.toUpperCase();
+    _placaVeiculo = placaVeiculo.toUpperCase();
 
     await validation.transportadorSchema
       .validateAsync({
         nomeTransportador: nomeTransportador,
-        placaVeiculo: placaVeiculo,
+        placaVeiculo: _placaVeiculo,
         created_at: created_at,
       })
       .catch((err) => {
         return res.status(400).send({ message: err.details[0].message });
       });
 
-    const verificaPlaca = await connection("transportadores")
-      .select("placaVeiculo")
-      .where({ placaVeiculo: placaVeiculo });
-    if (verificaPlaca.length !== 0) {
-      return res.status(400).send({ message: "Veículo já está cadastrado" });
+    const verificaTransportador = await connection("transportadores")
+      .select("nomeTransportador")
+      .where({ nomeTransportador: nomeTransportador });
+    if (verificaTransportador.length !== 0) {
+      return res
+        .status(400)
+        .send({ message: "Transportador já está cadastrado" });
     }
 
     try {
       const transferenciaId = await connection("transportadores").insert({
         nomeTransportador,
-        placaVeiculo,
+        placaVeiculo: _placaVeiculo,
         created_at,
       });
       return res.status(200).send({ message: "Inserido com sucesso" });
