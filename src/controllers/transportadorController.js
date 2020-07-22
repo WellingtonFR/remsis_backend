@@ -16,6 +16,7 @@ module.exports = {
   async create(req, res) {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+    placaVeiculo = placaVeiculo.toUpperCase();
 
     await validation.transportadorSchema
       .validateAsync({
