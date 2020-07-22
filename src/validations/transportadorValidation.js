@@ -15,7 +15,11 @@ const transportadorSchema = hapi.object({
     "string.empty": "O campo placa do veículo não pode estar vazio",
     "any.required": "A placa do veículo deve ser preenchida",
   }),
-  created_at: hapi.date().required().messages({
+  created_at: hapi.date().messages({
+    "date.base": "A data de criação está em formato inválido",
+    "date.strict": "O formato de data é inválido",
+  }),
+  updated_at: hapi.date().messages({
     "date.base": "A data de criação está em formato inválido",
     "date.strict": "O formato de data é inválido",
   }),
