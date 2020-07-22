@@ -16,7 +16,7 @@ exports.up = function (knex) {
     table.text("codigo_1").notNullable();
     table.text("descricaoProduto_1").notNullable();
     table.text("quantidadeProduto_1").notNullable();
-    table.text("observacao_1").notNullable();
+    table.text("observacao_1");
     //
     table.text("filialOrigem_2");
     table.text("notaFiscal_2");
