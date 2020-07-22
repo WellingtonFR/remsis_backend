@@ -28,15 +28,6 @@ module.exports = {
         return res.status(400).send({ message: err.details[0].message });
       });
 
-    const verificaTransportador = await connection("transportadores")
-      .select("nomeTransportador")
-      .where({ nomeTransportador: nomeTransportador });
-    if (verificaTransportador.length !== 0) {
-      return res
-        .status(400)
-        .send({ message: "Transportador já está cadastrado" });
-    }
-
     try {
       const transferenciaId = await connection("transportadores").insert({
         nomeTransportador,
