@@ -2,15 +2,6 @@ const moment = require("moment");
 const connection = require("../database/connection");
 const validation = require("../validations/transportadorValidation");
 
-function primeiraLetraMaiuscula(texto) {
-  var palavras = texto.toLowerCase().split(" ");
-  for (var a = 0; a < palavras.length; a++) {
-    var w = palavras[a];
-    palavras[a] = w[0].toUpperCase() + w.slice(1);
-  }
-  return words.join(" ");
-}
-
 module.exports = {
   async index(req, res) {
     try {
@@ -26,11 +17,10 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
-    const _nomeTransportador = primeiraLetraMaiuscula(nomeTransportador).trim();
 
     await validation.transportadorSchema
       .validateAsync({
-        nomeTransportador: _nomeTransportador,
+        nomeTransportador: nomeTransportador,
         placaVeiculo: _placaVeiculo,
         created_at: created_at,
       })
@@ -49,7 +39,7 @@ module.exports = {
 
     try {
       const transferenciaId = await connection("transportadores").insert({
-        nomeTransportador: _nomeTransportador,
+        nomeTransportador,
         placaVeiculo: _placaVeiculo,
         created_at,
       });
@@ -62,11 +52,10 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
-    const _nomeTransportador = primeiraLetraMaiuscula(nomeTransportador).trim();
 
     await validation.transportadorSchema
       .validateAsync({
-        nomeTransportador: _nomeTransportador,
+        nomeTransportador: nomeTransportador,
         placaVeiculo: _placaVeiculo,
         updated_at: updated_at,
       })
@@ -77,7 +66,7 @@ module.exports = {
     try {
       const { id } = req.params;
       await connection("transportadores").where({ id: id }).update({
-        nomeTransportador: _nomeTransportador,
+        nomeTransportador,
         placaVeiculo: _placaVeiculo,
         updated_at,
       });
