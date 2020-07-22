@@ -31,7 +31,7 @@ module.exports = {
       .select("placaVeiculo")
       .where({ placaVeiculo: placaVeiculo });
     if (verificaPlaca.length !== 0) {
-      return res.status(400).send({ message: "Conferente já está cadastrado" });
+      return res.status(400).send({ message: "Veículo já está cadastrado" });
     }
 
     try {
@@ -48,6 +48,13 @@ module.exports = {
   async update(req, res) {
     const { nomeTransportador, placaVeiculo } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
+
+    const verificaPlaca = await connection("transportadores")
+      .select("placaVeiculo")
+      .where({ placaVeiculo: placaVeiculo });
+    if (verificaPlaca.length !== 0) {
+      return res.status(400).send({ message: "Veículo já está cadastrado" });
+    }
 
     await validation.transportadorSchema
       .validateAsync({
