@@ -26,9 +26,7 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
-    const _nomeTransportador = nomeTransportador
-      .primeiraLetraMaiuscula()
-      .trim();
+    const _nomeTransportador = primeiraLetraMaiuscula(nomeTransportador).trim();
 
     await validation.transportadorSchema
       .validateAsync({
@@ -64,9 +62,7 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
-    const _nomeTransportador = nomeTransportador
-      .primeiraLetraMaiuscula()
-      .trim();
+    const _nomeTransportador = primeiraLetraMaiuscula(nomeTransportador).trim();
 
     await validation.transportadorSchema
       .validateAsync({
