@@ -2,6 +2,15 @@ const moment = require("moment");
 const connection = require("../database/connection");
 const validation = require("../validations/transportadorValidation");
 
+function primeiraLetraMaiuscula(texto) {
+  var palavras = texto.toLowerCase().split(" ");
+  for (var a = 0; a < words.length; a++) {
+    var w = palavras[a];
+    palavras[a] = w[0].toUpperCase() + w.slice(1);
+  }
+  return words.join(" ");
+}
+
 module.exports = {
   async index(req, res) {
     try {
@@ -17,10 +26,13 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
+    const _nomeTransportador = nomeTransportador
+      .primeiraLetraMaiuscula()
+      .trim();
 
     await validation.transportadorSchema
       .validateAsync({
-        nomeTransportador: nomeTransportador,
+        nomeTransportador: _nomeTransportador,
         placaVeiculo: _placaVeiculo,
         created_at: created_at,
       })
@@ -30,7 +42,7 @@ module.exports = {
 
     const verificaTransportador = await connection("transportadores")
       .select("nomeTransportador")
-      .where({ nomeTransportador: nomeTransportador });
+      .where({ nomeTransportador: _nomeTransportador });
     if (verificaTransportador.length !== 0) {
       return res
         .status(400)
@@ -39,7 +51,7 @@ module.exports = {
 
     try {
       const transferenciaId = await connection("transportadores").insert({
-        nomeTransportador,
+        nomeTransportador: _nomeTransportador,
         placaVeiculo: _placaVeiculo,
         created_at,
       });
@@ -52,10 +64,13 @@ module.exports = {
     const { nomeTransportador, placaVeiculo } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
+    const _nomeTransportador = nomeTransportador
+      .primeiraLetraMaiuscula()
+      .trim();
 
     await validation.transportadorSchema
       .validateAsync({
-        nomeTransportador: nomeTransportador,
+        nomeTransportador: _nomeTransportador,
         placaVeiculo: _placaVeiculo,
         updated_at: updated_at,
       })
@@ -66,7 +81,7 @@ module.exports = {
     try {
       const { id } = req.params;
       await connection("transportadores").where({ id: id }).update({
-        nomeTransportador,
+        nomeTransportador: _nomeTransportador,
         placaVeiculo: _placaVeiculo,
         updated_at,
       });
