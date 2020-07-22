@@ -4,7 +4,7 @@ const validation = require("../validations/transportadorValidation");
 
 function primeiraLetraMaiuscula(texto) {
   var palavras = texto.toLowerCase().split(" ");
-  for (var a = 0; a < words.length; a++) {
+  for (var a = 0; a < palavras.length; a++) {
     var w = palavras[a];
     palavras[a] = w[0].toUpperCase() + w.slice(1);
   }
