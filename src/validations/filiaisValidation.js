@@ -19,11 +19,9 @@ const filiaisSchema = hapi.object({
     "number.empty": "O número do endereço não pode estar vazio",
     "any.required": "O número do endereço deve ser preenchido",
   }),
-  complemento: hapi.string().max(70).required().messages({
+  complemento: hapi.string().max(70).messages({
     "string.base": "O complemento está em formato inválido",
     "string.max": "O complemento deve ter no máximo 50 caracteres",
-    "string.empty": "O complemento não pode estar vazio",
-    "any.required": "O complemento deve ser preenchido",
   }),
   cidade: hapi.string().max(100).required().messages({
     "string.base": "O campo cidade está em formato inválido",
