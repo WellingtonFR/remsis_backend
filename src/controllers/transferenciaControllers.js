@@ -7,7 +7,7 @@ module.exports = {
     try {
       const data = await connection("transferencias")
         .select("*")
-        .orderBy("created_at", "desc");
+        .orderBy("dataAtual", "asc");
       return res.json(data);
     } catch (err) {
       res.status(400).send("Erro ao localizar as transferências");
