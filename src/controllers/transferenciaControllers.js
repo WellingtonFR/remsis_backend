@@ -5,9 +5,7 @@ const validation = require("../validations/transferenciaValidation");
 module.exports = {
   async index(req, res) {
     try {
-      const data = await connection("transferencias")
-        .select("*")
-        .orderBy("dataAtual", "desc");
+      const data = await connection("transferencias").orderBy("created_at");
       return res.json(data);
     } catch (err) {
       res.status(400).send("Erro ao localizar as transferências");
@@ -839,9 +837,8 @@ module.exports = {
           });
       } else if (numeroFilial !== "") {
         await connection("transferencias")
-          .select("*")
           .where("unidadeDestino", numeroFilial)
-          .orderBy("created_at", "desc")
+          .orderBy("created_at")
           .then((data) => {
             return res.json(data);
           })
