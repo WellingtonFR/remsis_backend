@@ -184,7 +184,7 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
-    const created_at = moment();
+    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
 
     try {
       const transferenciaId = await connection("transferencias").insert({
@@ -538,7 +538,7 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
-    const updated_at = moment();
+    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     try {
       const { id } = req.params;
 
