@@ -775,8 +775,8 @@ module.exports = {
   async search(req, res) {
     const { initialDate, finalDate, numeroControle, numeroFilial } = req.body;
 
-    const validationInitialDate = moment().format("DD/MM/YYYY");
-    const validationFinalDate = moment().format("DD/MM/YYYY");
+    const validationInitialDate = moment().format("MM DD YYYY, h:mm:ss a");
+    const validationFinalDate = moment().format("MM DD YYYY, h:mm:ss a");
 
     await validation.searchSchema
       .validateAsync({
