@@ -838,7 +838,7 @@ module.exports = {
       } else if (numeroFilial !== "") {
         await connection("transferencias")
           .where("unidadeDestino", numeroFilial)
-          .orderBy("created_at")
+          .orderBy("created_at", "desc")
           .then((data) => {
             return res.json(data);
           })
