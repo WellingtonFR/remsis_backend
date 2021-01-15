@@ -5,7 +5,10 @@ const validation = require("../validations/transferenciaValidation");
 module.exports = {
   async index(req, res) {
     try {
-      const data = await connection("transferencias").orderBy("created_at");
+      const data = await connection("transferencias").orderBy(
+        "created_at",
+        "desc"
+      );
       return res.json(data);
     } catch (err) {
       res.status(400).send("Erro ao localizar as transferências");
@@ -184,7 +187,7 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
-    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+    const created_at = moment().format();
 
     try {
       const transferenciaId = await connection("transferencias").insert({
@@ -538,7 +541,7 @@ module.exports = {
       observacao_20,
     } = req.body;
     //#endregion
-    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
+    const updated_at = moment().format();
     try {
       const { id } = req.params;
 
@@ -775,8 +778,8 @@ module.exports = {
   async search(req, res) {
     const { initialDate, finalDate, numeroControle, numeroFilial } = req.body;
 
-    const validationInitialDate = moment().format("MM DD YYYY, h:mm:ss a");
-    const validationFinalDate = moment().format("MM DD YYYY, h:mm:ss a");
+    const validationInitialDate = moment().format("DD/MM/YYYY");
+    const validationFinalDate = moment().format("DD/MM/YYYY");
 
     await validation.searchSchema
       .validateAsync({
@@ -826,7 +829,7 @@ module.exports = {
         await connection("transferencias")
           .select("*")
           .where("numeroControle", numeroControle)
-          .orderBy("created_at", "asc")
+          .orderBy("created_at", "desc")
           .then((data) => {
             return res.json(data);
           })
