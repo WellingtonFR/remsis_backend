@@ -3,6 +3,7 @@ exports.up = function (knex) {
     table.increments();
     table.string("nomeTransportador").notNullable();
     table.string("placaVeiculo").notNullable();
+    table.string("filialAtendida");
     table.string("created_at");
     table.string("updated_at");
   });

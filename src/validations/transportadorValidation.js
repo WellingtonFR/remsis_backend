@@ -15,6 +15,10 @@ const transportadorSchema = hapi.object({
     "string.empty": "O campo placa do veículo não pode estar vazio",
     "any.required": "A placa do veículo deve ser preenchida",
   }),
+  filialAtendida: hapi.string().max(30).messages({
+    "string.base": "O campo filial atendida está em formato inválido",
+    "string.max": "O campo filial atendida deve ter no máximo 30 caracteres",
+  }),
   created_at: hapi.date().messages({
     "date.base": "A data de criação está em formato inválido",
     "date.strict": "O formato de data é inválido",

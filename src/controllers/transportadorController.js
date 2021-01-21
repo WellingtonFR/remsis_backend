@@ -14,7 +14,7 @@ module.exports = {
     }
   },
   async create(req, res) {
-    const { nomeTransportador, placaVeiculo } = req.body;
+    const { nomeTransportador, placaVeiculo, filialAtendida } = req.body;
     const created_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
@@ -22,6 +22,7 @@ module.exports = {
       .validateAsync({
         nomeTransportador: nomeTransportador,
         placaVeiculo: _placaVeiculo,
+        filialAtendida: filialAtendida,
         created_at: created_at,
       })
       .catch((err) => {
@@ -32,6 +33,7 @@ module.exports = {
       const transferenciaId = await connection("transportadores").insert({
         nomeTransportador,
         placaVeiculo: _placaVeiculo,
+        filialAtendida,
         created_at,
       });
       return res.status(200).send({ message: "Inserido com sucesso" });
@@ -40,15 +42,16 @@ module.exports = {
     }
   },
   async update(req, res) {
-    const { nomeTransportador, placaVeiculo } = req.body;
+    const { nomeTransportador, placaVeiculo, filialAtendida } = req.body;
     const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
     await validation.transportadorSchema
       .validateAsync({
-        nomeTransportador: nomeTransportador,
+        nomeTransportador,
         placaVeiculo: _placaVeiculo,
-        updated_at: updated_at,
+        filialAtendida,
+        updated_at,
       })
       .catch((err) => {
         return res.status(400).send({ message: err.details[0].message });
@@ -59,6 +62,7 @@ module.exports = {
       await connection("transportadores").where({ id: id }).update({
         nomeTransportador,
         placaVeiculo: _placaVeiculo,
+        filialAtendida,
         updated_at,
       });
       return res.status(200).send({ message: "Alterado com sucesso" });
