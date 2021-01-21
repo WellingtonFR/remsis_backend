@@ -110,7 +110,7 @@ module.exports = {
       .catch((err) => {
         return res
           .status(400)
-          .send({ message: "Erro ao localizar transportador" });
+          .send({ message: "Erro ao localizar o transportador" });
       });
   },
   async findByName(req, res) {
@@ -124,7 +124,21 @@ module.exports = {
       .catch((err) => {
         return res
           .status(400)
-          .send({ message: "Erro ao localizar transportador" });
+          .send({ message: "Erro ao localizar o transportador" });
+      });
+  },
+  async findByFilialAtendida(req, res) {
+    const { filialAtendida } = req.params;
+    await connection("transportadores")
+      .select("*")
+      .where("filialAtendida", filialAtendida)
+      .then((data) => {
+        return res.json(data);
+      })
+      .catch((err) => {
+        return res
+          .status(400)
+          .send({ message: "Erro ao localizar o transportador" });
       });
   },
   async find(req, res) {
@@ -139,7 +153,7 @@ module.exports = {
       .catch((err) => {
         return res
           .status(400)
-          .send({ message: "Erro ao localizar transportador" });
+          .send({ message: "Erro ao localizar o transportador" });
       });
   },
 };

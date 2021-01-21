@@ -3,7 +3,7 @@ const hapi = require("@hapi/joi");
 const transportadorSchema = hapi.object({
   nomeTransportador: hapi.string().min(3).max(70).required().messages({
     "string.base": "O nome do transportador está em formato inválido",
-    "string.base": "O nome do transportador  deve ter no minímo 3 caracteres",
+    "string.min": "O nome do transportador  deve ter no minímo 3 caracteres",
     "string.max": "O nome do transportador deve ter no máximo 70 caracteres",
     "string.empty": "O campo nome do transportador não pode estar vazio",
     "any.required": "O nome do transportador deve ser preenchido",

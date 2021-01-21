@@ -61,6 +61,11 @@ route.get(
   autenticarToken,
   transportadorController.findByName
 );
+route.get(
+  "/transportador/findByFilialAtendida/:filialAtendida",
+  autenticarToken,
+  transportadorController.findByFilialAtendida
+);
 route.post(
   "/transportador/create",
   autenticarToken,
