@@ -15,7 +15,7 @@ module.exports = {
   },
   async create(req, res) {
     const { nomeTransportador, placaVeiculo, filialAtendida } = req.body;
-    const created_at = moment().format("MM DD YYYY, h:mm:ss a");
+    const created_at = moment().format();
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
     await validation.transportadorSchema
@@ -43,7 +43,7 @@ module.exports = {
   },
   async update(req, res) {
     const { nomeTransportador, placaVeiculo, filialAtendida } = req.body;
-    const updated_at = moment().format("MM DD YYYY, h:mm:ss a");
+    const updated_at = moment().format();
     const _placaVeiculo = placaVeiculo.toUpperCase().trim();
 
     await validation.transportadorSchema
@@ -131,6 +131,7 @@ module.exports = {
     const { filialAtendida } = req.params;
     await connection("transportadores")
       .select("*")
+      .orderBy("nomeTransportador")
       .orderByRaw(`filialAtendida = ${filialAtendida} desc`)
       .then((data) => {
         return res.json(data);
