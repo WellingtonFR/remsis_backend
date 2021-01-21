@@ -131,7 +131,7 @@ module.exports = {
     const { filialAtendida } = req.params;
     await connection("transportadores")
       .select("*")
-      .orderByRaw(`filialAtendida = ${filialAtendida} desc`)
+      .where("filialAtendida", filialAtendida)
       .then((data) => {
         return res.json(data);
       })
